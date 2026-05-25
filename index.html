@@ -371,18 +371,38 @@
 
   </div>
 
-  <script>
+ <script>
 
-    // 点击开始面试
-    function startInterview(){
+  // 开始面试
+  function startInterview(){
 
-      // 跳转到你的AI智能体
-      window.location.href =
-      "https://www.coze.cn/store/agent/7643668704886636598?bot_id=true";
+    // 按钮加载状态
+    const btn = document.querySelector(".start-btn");
 
-    }
+    btn.innerHTML = "正在进入...";
+    btn.style.opacity = "0.85";
+    btn.style.pointerEvents = "none";
 
-  </script>
+    // 你的 Coze 智能体公开链接
+    const interviewUrl =
+    "https://www.coze.cn/s/mGH8vrIQmSk/";
+
+    // 延迟跳转（更有高级感）
+    setTimeout(()=>{
+
+      // 新窗口打开
+      window.open(interviewUrl, "_blank");
+
+      // 恢复按钮
+      btn.innerHTML = "开始面试";
+      btn.style.opacity = "1";
+      btn.style.pointerEvents = "auto";
+
+    },1200);
+
+  }
+
+</script>
 
 </body>
 </html>
