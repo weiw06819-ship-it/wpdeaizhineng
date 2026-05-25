@@ -1,0 +1,388 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>AI面试官</title>
+
+  <style>
+
+    *{
+      margin:0;
+      padding:0;
+      box-sizing:border-box;
+      font-family:"PingFang SC","Microsoft YaHei",sans-serif;
+    }
+
+    body{
+      width:100%;
+      height:100vh;
+      overflow:hidden;
+      background:#000;
+      color:#fff;
+      position:relative;
+    }
+
+    /* 背景 */
+    .bg{
+      position:absolute;
+      inset:0;
+      background:
+      linear-gradient(
+        rgba(0,0,0,.72),
+        rgba(0,0,0,.72)
+      ),
+      url("https://images.unsplash.com/photo-1497366754035-f200968a6e72?q=80&w=2070&auto=format&fit=crop") center center/cover no-repeat;
+
+      transform:scale(1.05);
+      animation:bgMove 18s ease-in-out infinite alternate;
+    }
+
+    @keyframes bgMove{
+      from{
+        transform:scale(1.05) translateY(0px);
+      }
+      to{
+        transform:scale(1.12) translateY(-10px);
+      }
+    }
+
+    /* 顶部导航 */
+    .navbar{
+      position:absolute;
+      top:0;
+      left:0;
+      width:100%;
+      padding:28px 60px;
+      display:flex;
+      justify-content:space-between;
+      align-items:center;
+      z-index:10;
+    }
+
+    .logo{
+      display:flex;
+      align-items:center;
+      gap:14px;
+    }
+
+    .logo h1{
+      font-size:30px;
+      font-weight:700;
+      letter-spacing:2px;
+    }
+
+    .logo span{
+      font-size:14px;
+      opacity:.7;
+      letter-spacing:3px;
+    }
+
+    .nav-right{
+      display:flex;
+      align-items:center;
+      gap:30px;
+      font-size:15px;
+      opacity:.85;
+    }
+
+    /* 中间内容 */
+    .hero{
+      position:relative;
+      z-index:5;
+      width:100%;
+      height:100vh;
+      display:flex;
+      flex-direction:column;
+      justify-content:center;
+      align-items:center;
+      text-align:center;
+      padding:20px;
+    }
+
+    .title{
+      font-size:88px;
+      font-weight:800;
+      letter-spacing:4px;
+      margin-bottom:20px;
+      text-shadow:0 10px 40px rgba(255,255,255,.15);
+    }
+
+    .subtitle{
+      font-size:26px;
+      letter-spacing:8px;
+      opacity:.85;
+      margin-bottom:30px;
+    }
+
+    .line{
+      width:120px;
+      height:1px;
+      background:rgba(255,255,255,.4);
+      margin-bottom:40px;
+    }
+
+    .desc{
+      max-width:700px;
+      line-height:2;
+      color:rgba(255,255,255,.75);
+      font-size:18px;
+      margin-bottom:60px;
+    }
+
+    /* 按钮 */
+    .start-btn{
+      width:320px;
+      height:88px;
+      border-radius:999px;
+      border:none;
+      background:linear-gradient(
+        135deg,
+        rgba(255,255,255,0.95),
+        rgba(220,220,220,0.9)
+      );
+      color:#111;
+      font-size:30px;
+      font-weight:700;
+      cursor:pointer;
+      transition:.35s;
+      position:relative;
+      overflow:hidden;
+      box-shadow:
+      0 10px 40px rgba(255,255,255,.15),
+      inset 0 1px 0 rgba(255,255,255,.8);
+    }
+
+    .start-btn:hover{
+      transform:translateY(-6px) scale(1.02);
+      box-shadow:
+      0 20px 60px rgba(255,255,255,.25);
+    }
+
+    .start-btn::before{
+      content:'';
+      position:absolute;
+      top:0;
+      left:-100%;
+      width:100%;
+      height:100%;
+      background:linear-gradient(
+        90deg,
+        transparent,
+        rgba(255,255,255,.45),
+        transparent
+      );
+      transition:.8s;
+    }
+
+    .start-btn:hover::before{
+      left:100%;
+    }
+
+    /* 底部功能 */
+    .features{
+      position:absolute;
+      bottom:45px;
+      left:50%;
+      transform:translateX(-50%);
+      display:flex;
+      gap:100px;
+      z-index:10;
+    }
+
+    .feature{
+      text-align:center;
+      opacity:.88;
+    }
+
+    .feature-icon{
+      width:62px;
+      height:62px;
+      border-radius:50%;
+      border:1px solid rgba(255,255,255,.2);
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      margin:auto;
+      margin-bottom:16px;
+      backdrop-filter:blur(10px);
+      font-size:24px;
+    }
+
+    .feature-title{
+      font-size:18px;
+      margin-bottom:8px;
+    }
+
+    .feature-desc{
+      font-size:14px;
+      opacity:.65;
+    }
+
+    /* 动画 */
+    .fade-up{
+      animation:fadeUp 1.2s ease forwards;
+      opacity:0;
+    }
+
+    .delay1{
+      animation-delay:.2s;
+    }
+
+    .delay2{
+      animation-delay:.4s;
+    }
+
+    .delay3{
+      animation-delay:.6s;
+    }
+
+    @keyframes fadeUp{
+      from{
+        transform:translateY(40px);
+        opacity:0;
+      }
+      to{
+        transform:translateY(0);
+        opacity:1;
+      }
+    }
+
+    /* 响应式 */
+    @media(max-width:900px){
+
+      .title{
+        font-size:56px;
+      }
+
+      .subtitle{
+        font-size:18px;
+        letter-spacing:4px;
+      }
+
+      .desc{
+        font-size:15px;
+        line-height:1.8;
+      }
+
+      .start-btn{
+        width:260px;
+        height:72px;
+        font-size:24px;
+      }
+
+      .features{
+        gap:25px;
+        flex-wrap:wrap;
+        width:90%;
+        justify-content:center;
+      }
+
+      .navbar{
+        padding:24px;
+      }
+    }
+
+  </style>
+</head>
+
+<body>
+
+  <!-- 背景 -->
+  <div class="bg"></div>
+
+  <!-- 顶部 -->
+  <div class="navbar">
+
+    <div class="logo">
+
+      <div style="font-size:42px;font-weight:900;">
+        AI
+      </div>
+
+      <div>
+        <h1>AI面试官</h1>
+        <span>AI INTERVIEWER</span>
+      </div>
+
+    </div>
+
+    <div class="nav-right">
+      <div>隐私保护</div>
+      <div>智能评估</div>
+      <div>专业面试</div>
+    </div>
+
+  </div>
+
+  <!-- 中间 -->
+  <div class="hero">
+
+    <div class="title fade-up">
+      AI 面试官
+    </div>
+
+    <div class="subtitle fade-up delay1">
+      智能 · 专业 · 高效
+    </div>
+
+    <div class="line fade-up delay1"></div>
+
+    <div class="desc fade-up delay2">
+      基于人工智能的大模型面试系统，
+      提供实时追问、深度能力分析、
+      岗位精准评估与自动化面试报告，
+      让每一次面试都更专业。
+    </div>
+
+    <!-- 开始按钮 -->
+    <button class="start-btn fade-up delay3" onclick="startInterview()">
+      开始面试
+    </button>
+
+  </div>
+
+  <!-- 底部 -->
+  <div class="features">
+
+    <div class="feature">
+      <div class="feature-icon">🎯</div>
+      <div class="feature-title">智能追问</div>
+      <div class="feature-desc">深度挖掘候选人能力</div>
+    </div>
+
+    <div class="feature">
+      <div class="feature-icon">📊</div>
+      <div class="feature-title">实时分析</div>
+      <div class="feature-desc">动态评估回答质量</div>
+    </div>
+
+    <div class="feature">
+      <div class="feature-icon">🛡</div>
+      <div class="feature-title">精准评估</div>
+      <div class="feature-desc">多维度能力测评</div>
+    </div>
+
+    <div class="feature">
+      <div class="feature-icon">📄</div>
+      <div class="feature-title">生成报告</div>
+      <div class="feature-desc">自动输出面试总结</div>
+    </div>
+
+  </div>
+
+  <script>
+
+    // 点击开始面试
+    function startInterview(){
+
+      // 跳转到你的AI智能体
+      window.location.href =
+      "https://www.coze.cn/store/agent/7643668704886636598?bot_id=true";
+
+    }
+
+  </script>
+
+</body>
+</html>
